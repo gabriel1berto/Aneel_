@@ -1,0 +1,32 @@
+# AMBIENTE VIRTUAL 
+
+- pip install virtualenv
+- virtualenv aneel_energisa
+- aneel_energisa\Scripts\activate
+- pip install requests
+- pip install pandas
+- pip install numpy
+- pip install seaborn
+- pip install matplotlib
+- pip install dash
+- pip install plotly
+- pip install plotly.expresspip
+- pip install ipykernel
+
+
+- pip freeze > requirements.txt
+
+
+p/ ver o ambiente
+- conda activate aneel_energisa
+- manupular
+- deactivate
+
+
+
+
+# VS e GIT
+git init
+git add .
+git commit -am "alterei ..."
+git push
