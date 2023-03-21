@@ -4,72 +4,57 @@ import dash_html_components as html
 import plotly.express as px
 import pandas as pd
 
-# Carrega os gráficos do Desafio 1.inpy
-with open('emp_mes_ufF.html', 'r', encoding='utf-8') as f:
-    fig1 = html.Iframe(srcDoc=f.read(), width='100%', height='600')
-
-with open('emp_por_ano.html', 'r', encoding='utf-8') as f:
-    fig2 = html.Iframe(srcDoc=f.read(), width='100%', height='600')
-
-# Define o layout da página
+# Carrega os gráficos do Desafio 1.inpn
 app = dash.Dash(__name__)
-app.layout = html.Div(children=[
-    
+
+fig_style = {'padding': '0 20px'}
+
+# Carrega os gráficos do Desafio 1.inpy
+with open('emp_mes_ufF.html', 'r') as f:
+    fig1 = html.Iframe(srcDoc=open('emp_mes_ufF.html', 'r', encoding='utf-8').read(), width='100%', height='600')
+with open('emp_por_ano.html', 'r') as f:
+    fig2 = html.Iframe(srcDoc=open('emp_por_ano.html', 'r', encoding='utf-8').read(), width='100%', height='600')
+
+
+app.layout = html.Div([
+    html.Img(src="/sites/default/files/Logo.svg", title="Energisa", alt="Logo Energisa",
+             style={
+                 'position': 'absolute', # posição absoluta
+                 'left': '10px', # distância da borda esquerda
+                 'top': '10px', # distância da borda superior
+                 'height': '50px' # altura da imagem
+             }),
+
     # Título da página
-    html.H1(children='Teste Energisa'),
-    
+    html.H1(children='Desafio Técnico Engergisa', 
+            style={
+                'color': '#0074D9', # cor do texto
+                'font-size': '36px', # tamanho da fonte
+                'font-family': 'Arial, sans-serif', # família da fonte
+                'font-weight': 'bold', # negrito
+                'margin-top': '50px', # margem superior
+                'margin-bottom': '30px', # margem inferior
+                'text-align': 'center' # alinhamento do texto
+            }),
+
     # Descrição da página
     html.Div(children='''
         OBS: Estou muito animado para compartilhar estes gráficos com você!
     '''),
-    
-    # Gráficos importados
-    html.Div(children=[
-        html.H2(children='Gráfico 1'),
-        fig1,
-        
-        html.H2(children='Gráfico 2'),
-        fig2
-    ]),
-    
-    # Elementos interativos
-    html.Div(children=[
-        
-        html.H2(children='Elementos interativos'),
-        
-        # Dropdown: é um menu suspenso que permite ao usuário selecionar uma das opções disponíveis.
-        dcc.Dropdown(     
-            id='dropdown1',
-            options=[
-                {'label': 'Opção 1', 'value': 'opcao1'},
-                {'label': 'Opção 2', 'value': 'opcao2'},
-                {'label': 'Opção 3', 'value': 'opcao3'}
-            ],
-            value='opcao1'
-        ),
-        
-        # Slider: é uma barra deslizante que permite ao usuário selecionar um valor dentro de um intervalo definido. 
-        dcc.Slider(
-            id='slider1',
-            min=0,
-            max=10,
-            step=1,
-            value=5
-        ),
-        
 
-        # Button: é um botão que o usuário pode clicar para executar uma ação.
-        html.Button('Botão 1', id='button1')
-    ]),
-    
     # Local onde os gráficos atualizados serão exibidos
     html.Div(children=[
         html.H2(children='Gráfico atualizado'),
         dcc.Graph(id='graph1')
-    ])
+    ]),
+
+    # Define as funções para atualização dos gráficos
+    html.Div(children=[
+        html.H2(children='Gráfico atualizado'),
+        dcc.Graph(id='graph1')
+    ], style={'backgroundColor': '#FFF5EE'})
 ])
 
-# Define as funções para atualização dos gráficos
 @app.callback(
     dash.dependencies.Output('graph1', 'figure'),
     [dash.dependencies.Input('dropdown1', 'value'),
@@ -88,4 +73,3 @@ def update_graph1(dropdown_value, slider_value, n_clicks):
 
 if __name__ == '__main__':
     app.run_server(debug=False, port=8050)
-    
