@@ -15,7 +15,7 @@ df = pd.DataFrame({
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='Hello lubs'),
 
     html.Div(children='''
         Dash: A web application framework for your data.
@@ -29,3 +29,6 @@ app.layout = html.Div(children=[
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+fig.write_html("path/to/file.html")
