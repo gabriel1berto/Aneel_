@@ -6,10 +6,9 @@
 
 O projeto tem o objetivo principal de captar dados da API Relação de empreendimentos de Geração Distribuída (Aneel) e visualiza-los em uma plataforma web em localhost.
 
-
-#Arquivo principal - app.ipynb
-#Arquivo de testes - test1.ipynb
-
+# Exposição de dados - Visualização -> (...)
+# Arquivo principal - Codigos -> app.ipynb
+# Arquivo de testes - Codigos -> test1.ipynb
 
 ## Boas práticas:
     - Códigos comentados; 
