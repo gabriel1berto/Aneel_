@@ -1,18 +1,36 @@
-# VISUALIZAÇÔES
-Verificar a distribuição de classes de consumo e subgrupos tarifários entre as distribuidoras de energia.
-Identificar se há diferenças significativas nos valores de tarifa entre as distribuidoras e subgrupos tarifários.
-Analisar a evolução da potência instalada em kW e do número de consumidores atendidos pelas distribuidoras ao longo do tempo.
-Identificar as distribuidoras que atendem mais de uma região do país e comparar as características de cada uma delas.
-Investigar se há diferenças nas tarifas entre distribuidoras que atendem a mesma região.
-Avaliar o impacto da bandeira tarifária no valor da conta de energia elétrica dos consumidores.
-Identificar se há padrões de comportamento de consumo de energia elétrica em determinadas regiões do país.
+Inteligencia de dados de Gerção distribuida no Brasil
 
-# PREVISÔES
-Previsão do consumo de energia elétrica por classe de consumo e subgrupo tarifário ao longo do tempo.
-Previsão da tarifa média por subgrupo tarifário, considerando variáveis como o porte do agente e a localização geográfica.
-Previsão do número de consumidores por distribuidora de energia elétrica, considerando variáveis como a região geográfica e o porte do agente.
-Previsão da demanda máxima de energia elétrica por subestação, considerando variáveis como a potência instalada e o tipo de conexão à rede elétrica.
-Previsão do valor total da fatura de energia elétrica de um consumidor, considerando variáveis como o consumo mensal de energia elétrica, a tarifa aplicada e as bandeiras tarifárias.
+O objetivo principal desse projeto é apresentar visualizações gráficas de dados obtidos da API da Aneel.
 
-# ML
-Previsão de demanda: pode ser desenvolvido um modelo de regressão para prever a demanda de energia elétrica em determinado período, levando em conta variáveis como período do ano, temperatura média, classe de consumo, etc. Isso pode ajudar as distribuidoras a planejarem melhor a geração e distribuição de energia.
+
+Boas práticas aplicadas:
+    - Códigos comentados
+    - Operação no ambiente vistual aneel_energisa disponibilizado no pack
+    - Commit no git
+
+
+Versão 1 (20/03 a 22/03)
+Objetivo principal: Visualizar dados da API Relação de empreendimentos de Geração Distribuída.
+
+Etapa 1 - Requisição da api
+            - Desafio 1.py
+Etapa 2 - ETL e Visualização de dados
+            - etl_vis
+Etapa 3 - Suubir dados para https.
+            -aneel_energisa.py
+Etapa 4 - MAIN
+            - main.py
+
+Versão 2
+Objetivo principal: Operar em AWS
+
+Etapa 1 - Lambda para requisição da API
+Etapa 2 - Bucket S3 para controle de dados brutos
+Etapa 3 - Lambda para ETL e movimentação envio para RDS
+Etapa 4 - RDS para armazenamento de dados
+Etapa 5 - Subida do HTTPS para AWS
+
+
+Etapa 3 
+Objetivo principal: Subir outras API que façam sentido para modelos
+
