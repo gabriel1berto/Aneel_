@@ -4,7 +4,7 @@
 
 # Energisa_aneel
 
-O projeto tem o objetivo principal de captar dados da API Relação de empreendimentos de Geração Distribuída (Aneel) e visualiza-los em uma plataforma web em localhost.
+O projeto tem o objetivo principal de realizar ETL de dados de Relação de empreendimentos de Geração Distribuída pela API (Aneel), realizar EDA e desenvolver uma plataforma em https(localhost) para visualizar gráficos.
 
 ## Exposição de dados - Visualização -> (...)
 ## Arquivo principal - Codigos -> app.ipynb
