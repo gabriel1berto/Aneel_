@@ -16,7 +16,8 @@ O projeto tem o objetivo principal de realizar ETL de dados de Relação de empr
     - Commit no git.
 
 
-## 1º etapa do projeto - (desafio energisa)  
+## 1º etapa do projeto - (desafio energisa, http://127.0.0.1:8050/ )
+### 1.1 refinamento do script (http://127.0.0.1:8040/ ))
   - ETL (Extract Transform and Load) dados da API Relação de empreendimentos de Geração Distribuída   ✔
   - EDA (Exploratory Data Analysis) em python   ✔
   - Visualização em https localhost   ✔

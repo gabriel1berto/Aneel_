@@ -58,13 +58,13 @@ def get_data(url, timeout_seconds):
         data = response.json()
         print("Requisição bem sucedida")
 
-        # verificar resposta da API
+        # Em caso de sucesso, capture mais alguns dados
         if data["success"]:
             # gera lista de registros e a lista de colunas
             records = data["result"]["records"]
             columns = data["result"]["fields"]
 
-            # adiciona as colunas "Bandeira" e "Nome_agente" na lista de colunas
+            # Opção de adicionar colunas "Bandeira" e "Nome_agente" na lista de colunas
             columns.append({"id": "Bandeira", "type": "text"})
             columns.append({"id": "Nome_agente", "type": "text"})
 
@@ -385,7 +385,7 @@ app.layout = html.Div(children=[
 ])
 
 
-# http://127.0.0.1:8050/
+# http://127.0.0.1:8040/
 
 if __name__ == '__main__':
     app.run_server(debug=True)
