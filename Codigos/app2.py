@@ -176,10 +176,10 @@ def adiciona_colunas(df):
     return df
 adiciona_colunas(df)
 
+
 ###### CRIA DFS #######
 
 # Para evitar conflitos por manipulação nas análises, criei dfs específicos para cada análise oriundos de simplificações de df
-
 # df pase para gráficos
 df_clean = df.dropna(subset=['NumCPFCNPJ']).copy()
 
@@ -206,56 +206,111 @@ sazonalidade = resultado.seasonal
 residuo = resultado.resid
 
 #______________tendencia
-fig_tendencia, ax = plt.subplots(figsize=(10, 5))
-ax.plot(tendencia)
-ax.set_xlabel('DthAtualizaCadastralEmpreend')
-ax.set_xticks(range(0, len(ts_clean), 300))
-ax.set_ylabel('NumCPFCNPJ')
-ax.set_title('Tendência')
+fig_tendencia = go.Figure()
+# Adicionar linha da tendência
+fig_tendencia.add_trace(go.Scatter(x=ts_clean.index, y=tendencia, mode='lines', name='Tendência'))
+
+# Configurar o layout
+fig_tendencia.update_layout(
+    xaxis_title='DthAtualizaCadastralEmpreend',
+    yaxis_title='NumCPFCNPJ',
+    title='Tendência',
+    width=1200,
+    height=650
+)
+
 
 #______________sazonalidade
-fig_sazonalidade, ax = plt.subplots(figsize=(10, 5))
-ax.plot(sazonalidade)
-ax.set_xlabel('DthAtualizaCadastralEmpreend')
-ax.set_xticks(range(0, len(ts_clean), 300))
-ax.set_ylabel('NumCPFCNPJ')
-ax.set_title('sazonalidade')
+import plotly.graph_objects as go
+
+fig_sazonalidade = go.Figure()
+
+fig_sazonalidade.add_trace(
+    go.Scatter(x=sazonalidade.index, y=sazonalidade, mode='lines')
+)
+
+fig_sazonalidade.update_layout(
+    title='Sazonalidade',
+    xaxis_title='DthAtualizaCadastralEmpreend',
+    yaxis_title='NumCPFCNPJ',
+    height=500,
+    width=800
+)
 
 #______________residuo
-import pandas as pd
-import matplotlib.pyplot as plt
-from statsmodels.tsa.stattools import adfuller, kpss
+import plotly.express as px
+
+fig_residuo = px.line(x=ts_clean.index, y=residuo)
+fig_residuo.update_layout(
+    xaxis_title='DthAtualizaCadastralEmpreend',
+    yaxis_title='NumCPFCNPJ',
+    title='Resíduo',
+    width=800,
+    height=400
+)
+
+
 
 #______________testes ADF e KPSS (resulados em listas)
+
+import pandas as pd
+from statsmodels.tsa.stattools import adfuller, kpss
+import plotly.graph_objs as go
+
+# Realizando o teste ADF
 resultado_adf = adfuller(ts_clean, autolag='AIC')
-# criando um dicionário com os resultados obtidos
 adf_dict = {'Estatística ADF': resultado_adf[0],
            'Número de atrasos': resultado_adf[2],
            'Valor p': resultado_adf[1]}
 adf_dict = pd.DataFrame(adf_dict.items(), columns=['Teste', 'Resultado'])
-# Imprimindo o dataframe
-#print('Teste ADF:')
-#print(adf_dict)
-#print()
+
 # Realizando o teste KPSS
 resultado_kpss = kpss(ts_clean, nlags='auto', regression='c')
-# criando um dicionário com os resultados obtidos
 kpss_dict = {'Estatística KPSS': resultado_kpss[0],
              'Número de atrasos': resultado_kpss[2],
              'Valor p': resultado_kpss[1]}
+kpss_dict = pd.DataFrame(kpss_dict.items(), columns=['Teste', 'Resultado'])
 
-# criando um DataFrame com o dicionário
-df_kpss = pd.DataFrame(kpss_dict.items(), columns=['Teste', 'Resultado'])
-# imprimindo o quadro
-#print('Teste KPSS:')
-#print(df_kpss)
-#print()
+# Criando a tabela com os resultados dos testes
+resultado_adf_kpss = go.Figure(data=[go.Table(
+    header=dict(values=list(['Teste', 'Resultado']),
+                fill_color='paleturquoise',
+                align='left'),
+    cells=dict(values=[adf_dict['Teste'].tolist() + kpss_dict['Teste'].tolist(),
+                       adf_dict['Resultado'].tolist() + kpss_dict['Resultado'].tolist()],
+               fill_color='lavender',
+               align='left'))
+])
+
+# Configurando o layout da tabela
+resultado_adf_kpss.update_layout(title='Testes de Estacionariedade',
+                  title_x=0.5,
+                  width=600,
+                  height=400)
+
+
 
 #______________ACF
 from statsmodels.graphics.tsaplots import plot_acf
+
 fig_acf = plot_acf(ts['NumCPFCNPJ'], lags=40)
 plt.xlabel('Lag')
 plt.ylabel('ACF')
+
+
+#import plotly.graph_objs as go
+#from plotly.subplots import make_subplots
+#from statsmodels.graphics.tsaplots import plot_acf
+#import matplotlib.pyplot as plt
+
+# gerar a figura com matplotlib
+#fig_acf = plot_acf(ts['NumCPFCNPJ'], lags=40)
+
+# converter a figura matplotlib para plotly
+#fig_acf = make_subplots(rows=1, cols=1)
+#for data in fig_acf.data:
+#    fig.add_trace(go.Scatter(x=data.x, y=data.y, name=data.name))
+#fig_acf.update_layout(fig_acf.layout)
 #plt.show()
 
 #______________PACF
@@ -299,6 +354,10 @@ counts = df_clean.groupby(['Ano_Mes', 'SigUF','SigTipoConsumidor', 'DscClasseCon
 counts_group = counts.groupby(['Ano_Mes','SigUF']).count().reset_index().sort_values(by='Ano_Mes')
 counts_group['SigUF'].unique()
 
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
 def gerar_grafico_Novos_estado(uf):
     counts_pivot = counts_group[counts_group['SigUF'] == uf].pivot(
     index='Ano_Mes', columns=['SigUF'], values='NumCPFCNPJ').fillna(0)
@@ -306,43 +365,44 @@ def gerar_grafico_Novos_estado(uf):
     counts_pivot = counts_pivot.sort_index()
     return counts_pivot
 
-# Criar uma figura com 2 linhas e 2 colunas de subplots
-fig_nusuarios_uf, axs = plt.subplots(nrows=4, ncols=2, figsize=(15, 6))
+# Criar subplots
+fig_nusuarios_uf = make_subplots(rows=4, cols=2, subplot_titles=['AL', 'BA', 'AP', 'AM', 'AC', 'SP', 'PA'])
+# Adicionar gráficos a cada subplot
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('AL').index, y=gerar_grafico_Novos_estado('AL').values.flatten(), mode='lines'),
+    row=1, col=1)
 
-# Plotar o primeiro gráfico no primeiro subplot
-axs[0, 0].plot(gerar_grafico_Novos_estado('AL'))
-axs[0, 0].set_title('AL')
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('BA').index, y=gerar_grafico_Novos_estado('BA').values.flatten(), mode='lines'),
+    row=1, col=2)
 
-# Plotar o segundo gráfico no segundo subplot
-axs[0, 1].plot(gerar_grafico_Novos_estado('BA'))
-axs[0, 1].set_title('BA')
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('AP').index, y=gerar_grafico_Novos_estado('AP').values.flatten(), mode='lines'),
+    row=2, col=1)
 
-# Plotar o terceiro gráfico no terceiro subplot
-axs[1, 0].plot(gerar_grafico_Novos_estado('AP'))
-axs[1, 0].set_title('AP')
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('AM').index, y=gerar_grafico_Novos_estado('AM').values.flatten(), mode='lines'),
+    row=2, col=2)
 
-# Plotar o quarto gráfico no quarto subplot
-axs[1, 1].plot(gerar_grafico_Novos_estado('AM'))
-axs[1, 1].set_title('AM')
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('AC').index, y=gerar_grafico_Novos_estado('AC').values.flatten(), mode='lines'),
+    row=3, col=1)
 
-axs[2, 0].plot(gerar_grafico_Novos_estado('AC'))
-axs[2, 0].set_title('AC')
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('SP').index, y=gerar_grafico_Novos_estado('SP').values.flatten(), mode='lines'),
+    row=3, col=2)
 
-axs[2, 1].plot(gerar_grafico_Novos_estado('SP'))
-axs[2, 1].set_title('SP')
-
-axs[3, 0].plot(gerar_grafico_Novos_estado('PA'))
-axs[3, 0].set_title('PA')
-
-# Ajustar a distância entre os subplots
-fig_nusuarios_uf.tight_layout()
+fig_nusuarios_uf.add_trace(
+    go.Scatter(x=gerar_grafico_Novos_estado('PA').index, y=gerar_grafico_Novos_estado('PA').values.flatten(), mode='lines'),
+    row=4, col=1)
+# Ajustar layout
+fig_nusuarios_uf.update_layout(height=800, width=1000, title_text="Novos Usuários por UF")
 
 
 ############################################################ GRÁFICO 2.1 ##############################################################################
 
 
 # O gráfico 2 mostra a evolução temporal do Total Mensal de Empreendimentos por Estado e por Classe de Consumo;
-
 
 
 
@@ -375,7 +435,7 @@ fig_2 = ff.create_annotated_heatmap(z=matriz.values,
 
 # estilo do heatmap
 fig_2.update_layout(
-    width=1200,
+    width=1500,
     height=600,
     xaxis_title='Ano',
     xaxis_title_font_size=16,
@@ -390,69 +450,8 @@ fig_2.update_layout(
 )
 
 
-############################################################ GRÁFICO 2.2 ##############################################################################
-
-
-fig_novos_classe = px.bar(counts, x="Ano_Mes", y="NumCPFCNPJ", color='DscClasseConsumo')
-fig_novos_classe.update_layout(
-    width=1200,
-    height=600,
-    xaxis_title='Ano_Mes',
-    xaxis_title_font_size=16,
-    yaxis_title='Novos usuários',
-    yaxis_title_font_size=16,
-    title='Novos usuários por tipo de consumo',
-    title_font_size=20,
-    title_x=.5
-)
-
-
-
 ############################################################ PROPHET ##############################################################################
 
-
-import pandas as pd
-import fbprophet
-from fbprophet import Prophet
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import datetime
-
-
-# Criando tabelas para o modelo
-df_prophet = ts_clean.copy()
-df_prophet = df_prophet.reset_index()
-df_prophet = df_prophet.rename(columns={'DthAtualizaCadastralEmpreend': 'ds', 'NumCPFCNPJ': 'y'})     # modelo pede colunas "ds" e "y"
- # cria o objeto Prophet e ajusta ao dataframe
-modelo = Prophet()
-modelo.fit(df_prophet)
-# define o período de previsão (1 ano)
-futuro = modelo.make_future_dataframe(periods=12*1, freq='M')
-previsao = modelo.predict(futuro)
-
-# plot dos resultados
-fig_prophet = fig, ax = plt.subplots(figsize=(12, 4))
-modelo.plot(previsao, ax=ax)
-ax.set_xlabel('Data', fontsize=12)
-ax.set_ylabel('Novos usuários', fontsize=12)
-ax.set_title('Previsão de novos usuários BR', fontsize=14)
-ax.set_facecolor('#f5f5f5')
-ax.grid(color='white', alpha=0.5)
-ax.tick_params(axis='both', which='major', labelsize=10, color='grey')
-ax.legend(['Dados originais', 'Previsão'], prop={'size': 12})
-fig_comp = modelo.plot_components(previsao)
-
-# cálculo das métricas de avaliação do modelo
-
-y_true = df_true['y']
-y_pred = df_pred['yhat'][:len(y_true)]
-mse = mean_squared_error(y_true, y_pred)
-mae = mean_absolute_error(y_true, y_pred)
-r2 = r2_score(y_true, y_pred)
-#print('MSE: {:.2f}'.format(mse))
-#print('MAE: {:.2f}'.format(mae))
-#print('R2 Score: {:.2f}'.format(r2))
 
 
 # o gráfico 3 é um gráfico de linha com a previsão de novos usuários da energia distribuida
@@ -570,6 +569,8 @@ app.layout = html.Div(children=[
                 'padding': '10px',
                 'box-sizing': 'border-box',
                 'border': '1px solid #ccc',
+                'text-align': 'center',
+                'font-family': 'Roboto, Arial, sans-serif',
             }
         ),
         html.Div(
@@ -585,6 +586,8 @@ app.layout = html.Div(children=[
                 'padding': '10px',
                 'box-sizing': 'border-box',
                 'border': '1px solid #ccc',
+                'text-align': 'center',
+                'font-family': 'Roboto, Arial, sans-serif',
             }
         )
     ],
@@ -594,6 +597,7 @@ app.layout = html.Div(children=[
         'display': 'flex',
         'flex-direction': 'row',
         'justify-content': 'space-between',
+        'font-family': 'Roboto, Arial, sans-serif',
     }),
 
 
@@ -603,8 +607,6 @@ app.layout = html.Div(children=[
     html.H2('Análise de novos usuários da Energia distribuida por estado',
         style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
     ),
-
-       
     html.Div([
         dropdown,
         html.Div([
@@ -614,9 +616,11 @@ app.layout = html.Div(children=[
             html.Div(
                 id='caixa-de-texto1',
                 children=[
-                    html.P('Objetivo e insights',
+                    html.H2('Observações do gráfico',
                         style={'font-size': '20px','padding-left': '10px','font-size': '23px', 'text-align': 'center','padding-right': '20px'}),
-                    html.Div('Utilizando um gráfico de barras, foi possível visualizar a evolução do número de usuários da geração distribuída ao longo do tempo. A análise demonstrou um crescimento quase contínuo, com alguns outliers positivos, como o estado de Alagoas, e um outlier negativo, como a Bahia.',
+                    html.Div(children=[
+                            'A adesão à geração distribuída de energia elétrica tem sido predominantemente por usuários em pessoa física, especialmente em residências e comércios. Isso se deve principalmente à baixa barreira de investimento, evolução das linhas de crédito e benefícios financeiros oferecidos pelo governo para incentivar o uso de fontes renováveis de energia.',
+                             html.Br(), 'Embora possam ocorrer variações sazonais no número de novos usuários da energia distribuída, a tendência geral tem sido de crescimento contínuo. No entanto, observa-se uma queda no terceiro trimestre de 2022, fator relacionado à instabilidade política no país.'],
                             style={'font-size': '15px','padding-left': '10px','height': '300px', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center', 'text-align': 'center','padding-right': '20px'})
                 ],
                 style={'margin-top': '-50px', 'width': '20%', 'display': 'inline-block', 'font-family': 'Roboto, Arial, sans-serif', 'font-size': '30px', 'font-weight': '700', 'line-height': '1.2', 'color': '#181818', 'margin-top': '20px'}
@@ -625,9 +629,25 @@ app.layout = html.Div(children=[
     ]),
 
 
+    html.H2('',
+        style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
+    ),
+    html.Div([
+        html.Div([
+            dcc.Graph(id='grafico11',
+                    figure=fig_nusuarios_uf,
+                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
+            dcc.Graph(id='grafico11',
+                    figure=fig_tendencia,
+                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
+        ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
+    ]),
+
+
+
+
+
     html.Hr(style={'margin': '10px 0', 'border-style': 'dashed', 'border-width': '1px', 'opacity': '0.5'}),
-
-
     html.H2('Análise macro de novos usuários da Energia distribuida',
         style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
     ),
@@ -635,16 +655,16 @@ app.layout = html.Div(children=[
         html.Div([
             dcc.Graph(id='grafico2',
                     figure=fig_2,
-                    style={'width': '80%', 'display': 'inline-block'}),
+                    style={'width': '100%', 'display': 'inline-block','margin': 'auto'}),
             html.Div(
                 id='caixa-de-texto2',
                 children=[
-                    html.P('Objetivo e insights',
+                    html.P('',
                         style={'font-size': '20px','padding-left': '10px','font-size': '23px', 'text-align': 'center','padding-right': '20px'}),
-                    html.Div('O mapa de calor situa o cenário da evolução da geração distribuída no país, com ele observamos a distoante evolução de Alagoas na geraçãao distribuída no cenário nascional.',
+                    html.Div('',
                             style={'font-size': '15px','padding-left': '10px','height': '300px', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center', 'text-align': 'center','padding-right': '20px'})
                 ],
-                style={'margin-top': '-50px', 'width': '20%', 'display': 'inline-block', 'font-family': 'Roboto, Arial, sans-serif', 'font-size': '30px', 'font-weight': '700', 'line-height': '1.2', 'color': '#181818', 'margin-top': '20px'}
+                style={'margin-top': '-50px', 'width': '00%', 'display': 'inline-block', 'font-family': 'Roboto, Arial, sans-serif', 'font-size': '30px', 'font-weight': '700', 'line-height': '1.2', 'color': '#181818', 'margin-top': '20px'}
             ),
         ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
     ]),
@@ -661,7 +681,7 @@ app.layout = html.Div(children=[
 
     html.Div([
         html.Div([
-            dcc.Graph(id='grafico4',
+            dcc.Graph(id='grafico3',
                     figure=fig_prophet,
                     style={'width': '70%', 'display': 'inline-block'}),
             html.Div(
@@ -687,11 +707,11 @@ app.layout = html.Div(children=[
     ),
     html.Div([
         html.Div([
-            dcc.Graph(id='grafico2',
-                    figure=fig_2,
+            dcc.Graph(id='grafico22',
+                    figure=fig_tendencia,
                     style={'width': '80%', 'display': 'inline-block'}),
             html.Div(
-                id='caixa-de-texto2',
+                id='caixa-de-texto22',
                 children=[
                     html.P('Objetivo e insights',
                         style={'font-size': '20px','padding-left': '10px','font-size': '23px', 'text-align': 'center','padding-right': '20px'}),
