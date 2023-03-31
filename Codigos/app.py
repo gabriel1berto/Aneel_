@@ -241,7 +241,7 @@ trace4 = go.Scatter(x=x, y=y4, fill='tonexty', mode='lines', line_color='gray', 
 
 data = [trace1, trace2, trace3, trace4]
 
-layout = go.Layout(title=dict(text='Projeção de usuários da rede distribuida no Brasil', x=0.5), xaxis=dict(title='Eixo X'), yaxis=dict(title='Eixo Y'))
+layout = go.Layout(title=dict(text='Projeção PotenciaInstaladaKW na rede distribuida do Brasil', x=0.5), xaxis=dict(title='Eixo X'), yaxis=dict(title='Eixo Y'))
 
 fig_prophet = go.Figure(data=data, layout=layout)
 
@@ -360,7 +360,7 @@ app.layout = html.Div(children=[
 
     html.Hr(style={'margin': '10px 0', 'border-style': 'dashed', 'border-width': '1px', 'opacity': '0.5'}),
 
-    html.H2('Projeção de novos usuários da Energia distribuida',
+    html.H2('Projeções',
         style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
     ),
 

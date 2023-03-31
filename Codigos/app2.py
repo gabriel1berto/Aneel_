@@ -184,11 +184,11 @@ adiciona_colunas(df)
 df_clean = df.dropna(subset=['NumCPFCNPJ']).copy()
 
 # estudos da serie temporal
-ts = df_clean.groupby(['DthAtualizaCadastralEmpreend', 'SigUF','SigTipoConsumidor', 'DscClasseConsumo']).agg({'NumCPFCNPJ': 'nunique'}).reset_index()
-ts = ts.sort_values('DthAtualizaCadastralEmpreend')
-ts = ts.set_index('DthAtualizaCadastralEmpreend')
+ts = df_clean.groupby(['Ano_Mes', 'SigUF','SigTipoConsumidor', 'DscClasseConsumo']).agg({'NumCPFCNPJ': 'nunique'}).reset_index()
+ts = ts.sort_values('Ano_Mes')
+ts = ts.set_index('Ano_Mes')
 ts_clean = ts.drop(['SigUF', 'SigTipoConsumidor','DscClasseConsumo'], axis=1)
-ts_clean = ts_clean.groupby('DthAtualizaCadastralEmpreend').sum()
+ts_clean = ts_clean.groupby('Ano_Mes').sum()
 
 # a cada modelo de previsão será criado um df (ts_nome-do-modelo)
 
@@ -200,7 +200,7 @@ ts_clean = ts_clean.groupby('DthAtualizaCadastralEmpreend').sum()
 #______________cria parametros
 import statsmodels.api
 from statsmodels.tsa.seasonal import seasonal_decompose
-resultado = seasonal_decompose(ts_clean['NumCPFCNPJ'], period = 12)
+resultado = seasonal_decompose(ts_clean['NumCPFCNPJ'], period = 1)
 tendencia = resultado.trend
 sazonalidade = resultado.seasonal
 residuo = resultado.resid
@@ -209,13 +209,12 @@ residuo = resultado.resid
 fig_tendencia = go.Figure()
 # Adicionar linha da tendência
 fig_tendencia.add_trace(go.Scatter(x=ts_clean.index, y=tendencia, mode='lines', name='Tendência'))
-
 # Configurar o layout
 fig_tendencia.update_layout(
-    xaxis_title='DthAtualizaCadastralEmpreend',
+    xaxis_title='Ano_Mes',
     yaxis_title='NumCPFCNPJ',
     title='Tendência',
-    width=1200,
+    width=1100,
     height=650
 )
 
@@ -347,6 +346,7 @@ fig_3.update_layout(
     title='Novos usuários por tipo de consumo',
     title_font_size=20,
     title_x=.5)
+
 
 ############################################################ GRÁFICO 1.2 ##############################################################################
 
@@ -484,7 +484,7 @@ trace4 = go.Scatter(x=x, y=y4, fill='tonexty', mode='lines', line_color='gray', 
 
 data = [trace1, trace2, trace3, trace4]
 
-layout = go.Layout(title=dict(text='Projeção de usuários da rede distribuida no Brasil', x=0.5), xaxis=dict(title='Eixo X'), yaxis=dict(title='Eixo Y'))
+layout = go.Layout(title=dict(text='Projeção PotenciaInstaladaKW na rede distribuida do Brasil', x=0.5), xaxis=dict(title='Eixo X'), yaxis=dict(title='Eixo Y'))
 
 fig_prophet = go.Figure(data=data, layout=layout)
 
@@ -604,7 +604,27 @@ app.layout = html.Div(children=[
 
 #__________________GRÁFICOS_______________#
 
+
+
     html.H2('Análise de novos usuários da Energia distribuida por estado',
+        style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
+    ),
+    html.Div([
+        html.Div([            
+    dcc.Graph(id='grafico111',
+                    figure=fig_tendencia,
+                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
+            dcc.Graph(id='grafico11',
+                    figure=fig_nusuarios_uf,
+                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
+        ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
+    ]),
+
+
+
+
+
+    html.H2('',
         style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
     ),
     html.Div([
@@ -620,7 +640,7 @@ app.layout = html.Div(children=[
                         style={'font-size': '20px','padding-left': '10px','font-size': '23px', 'text-align': 'center','padding-right': '20px'}),
                     html.Div(children=[
                             'A adesão à geração distribuída de energia elétrica tem sido predominantemente por usuários em pessoa física, especialmente em residências e comércios. Isso se deve principalmente à baixa barreira de investimento, evolução das linhas de crédito e benefícios financeiros oferecidos pelo governo para incentivar o uso de fontes renováveis de energia.',
-                             html.Br(), 'Embora possam ocorrer variações sazonais no número de novos usuários da energia distribuída, a tendência geral tem sido de crescimento contínuo. No entanto, observa-se uma queda no terceiro trimestre de 2022, fator relacionado à instabilidade política no país.'],
+                             ],
                             style={'font-size': '15px','padding-left': '10px','height': '300px', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center', 'text-align': 'center','padding-right': '20px'})
                 ],
                 style={'margin-top': '-50px', 'width': '20%', 'display': 'inline-block', 'font-family': 'Roboto, Arial, sans-serif', 'font-size': '30px', 'font-weight': '700', 'line-height': '1.2', 'color': '#181818', 'margin-top': '20px'}
@@ -628,20 +648,6 @@ app.layout = html.Div(children=[
         ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
     ]),
 
-
-    html.H2('',
-        style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
-    ),
-    html.Div([
-        html.Div([
-            dcc.Graph(id='grafico11',
-                    figure=fig_nusuarios_uf,
-                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
-            dcc.Graph(id='grafico11',
-                    figure=fig_tendencia,
-                    style={'width': '50%', 'display': 'inline-block','margin': 'auto'}),
-        ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
-    ]),
 
 
 
@@ -675,7 +681,7 @@ app.layout = html.Div(children=[
 
     html.Hr(style={'margin': '10px 0', 'border-style': 'dashed', 'border-width': '1px', 'opacity': '0.5'}),
 
-    html.H2('Estudo dos dados',
+    html.H2('Projeções',
         style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
     ),
 
@@ -696,33 +702,6 @@ app.layout = html.Div(children=[
             ),
         ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
     ]),
-
-
-
-    html.Hr(style={'margin': '10px 0', 'border-style': 'dashed', 'border-width': '1px', 'opacity': '0.5'}),
-
-
-    html.H2('Análise macro de novos usuários da Energia distribuida',
-        style={'padding-left': '30px','font-family': 'Roboto, Arial, sans-serif', 'font-size': '25px', 'font-weight': '700', 'line-height': '1.2', 'color': '#0774B4', 'margin-top': '20px'}
-    ),
-    html.Div([
-        html.Div([
-            dcc.Graph(id='grafico22',
-                    figure=fig_tendencia,
-                    style={'width': '80%', 'display': 'inline-block'}),
-            html.Div(
-                id='caixa-de-texto22',
-                children=[
-                    html.P('Objetivo e insights',
-                        style={'font-size': '20px','padding-left': '10px','font-size': '23px', 'text-align': 'center','padding-right': '20px'}),
-                    html.Div('O mapa de calor situa o cenário da evolução da geração distribuída no país, com ele observamos a distoante evolução de Alagoas na geraçãao distribuída no cenário nascional.',
-                            style={'font-size': '15px','padding-left': '10px','height': '300px', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center', 'text-align': 'center','padding-right': '20px'})
-                ],
-                style={'margin-top': '-50px', 'width': '20%', 'display': 'inline-block', 'font-family': 'Roboto, Arial, sans-serif', 'font-size': '30px', 'font-weight': '700', 'line-height': '1.2', 'color': '#181818', 'margin-top': '20px'}
-            ),
-        ], style={'display': 'flex', 'align-items': 'center', 'justify-content': 'center'})
-    ]),
-
 
 
 
