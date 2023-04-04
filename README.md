@@ -1,10 +1,6 @@
 ![reenergisa_logo](https://user-images.githubusercontent.com/84819715/229943527-1942f98d-827d-4055-a3c2-f06954d04bff.png)
 
 
-
-
-# Aneel
-
 O projeto tem o objetivo principal de apresentar dados relevantes ao setor de energias em uma plataforma web.
 #### Linguagens utilizadas
     - python
