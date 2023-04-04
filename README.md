@@ -5,7 +5,8 @@ O projeto tem o objetivo principal de apresentar dados relevantes ao setor de en
 #### Linguagens utilizadas
     - python
     - HTML/CSS
-    - JS
+    - php
+    - js
 
 
 ## Boas práticas:
