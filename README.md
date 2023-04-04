@@ -1,4 +1,5 @@
-![Logo_Grupo_Energisa](https://user-images.githubusercontent.com/84819715/227146519-476224f4-6516-47bd-ba03-c4904c49e601.png)
+![reenergisa_logo](https://user-images.githubusercontent.com/84819715/229943527-1942f98d-827d-4055-a3c2-f06954d04bff.png)
+
 
 
 
