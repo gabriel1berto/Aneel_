@@ -18,7 +18,7 @@ O projeto tem o objetivo principal de apresentar dados relevantes ao setor de en
 ### 1.1 refinamento do script
   - ETL (Extract Transform and Load) dados da API Relação de empreendimentos de Geração Distribuída   ✔
   - EDA (Exploratory Data Analysis) em python   ✔
-  - Visualização em https localhost   ✔
+  - Visualização em https localhost   ✔ <br>
  OBS: disponível em .app\V_1
 
 ## 2º etapa - refinamento do projeto - AWS
