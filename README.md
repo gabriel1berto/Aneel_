@@ -16,22 +16,26 @@ O projeto tem o objetivo principal de realizar ETL de dados de Relação de empr
     - Commit no git.
 
 
-## 1º etapa do projeto - (desafio energisa, http://127.0.0.1:8050/ )
+## 1º etapa do projeto - (desafio energisa, http://127.0.0.1:8050/)
+
 ### 1.1 refinamento do script (http://127.0.0.1:8040/ ))
   - ETL (Extract Transform and Load) dados da API Relação de empreendimentos de Geração Distribuída   ✔
   - EDA (Exploratory Data Analysis) em python   ✔
   - Visualização em https localhost   ✔
 
+## 2º etapa - refinamento do projeto - AWS
+  - otimização de scripts ✔
+  - estudo da serie novos usuários ✔
+  - teste em modelos de previsão (ARIMA, prophet) ✔
 
-## 2º etapa do projeto - AWS
-  - Requisição de API por API-Gateway
-  - ETL por Lambda
-  - Armazenamento temporário em S3
-  - Armazenamento de banco em RDS
-  - Evoluir a visualização de daos 
-
-
- ## 3º etapa do projeto - Inteligencia de mercado
-  - Utilizar a estrutura criada para captar dados de diversas API do setor (ONS, MLE, PEE)
-  - Aplicar modelos de regressão e ML
-  - Evoluir a visualização de dados
+ ## 3º etapa - incremento para uma plataforma visualização de dados
+  - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Energisa_dashboard?node-id=0-1 ✔
+  - layout em HTML e css ✔
+  - incrementar dashboard com dados reais 
+  
+ ## 4º etapa - aplicad JS para obtenção dos dados
+  - Servidor em nodeJS ✔
+  - obtenção de dados da api aneel ✔
+  - incrementar dashboard com dados reais 
+  
+  
