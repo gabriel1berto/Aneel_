@@ -3,18 +3,18 @@
 
 
 
-# Energisa_aneel
+# Aneel
 
-O projeto tem o objetivo principal de realizar ETL de dados de Relação de empreendimentos de Geração Distribuída pela API (Aneel), realizar EDA e desenvolver uma plataforma em https(localhost) para visualizar gráficos.
+O projeto tem o objetivo principal de apresentar dados relevantes ao setor de energias em uma plataforma web.
+#### Linguagens utilizadas
+    - python
+    - HTML/CSS
+    - JS
 
-## Exposição de dados - Visualização -> (...)
-## Arquivo principal - Codigos -> app.ipynb
-## Arquivo de testes - Codigos -> test1.ipynb
 
 ## Boas práticas:
-    - Códigos comentados; 
-    - Operação no ambiente vistual aneel_energisa disponibilizado em Codigos;
-    - Commit no git.
+    - Códigos comitados e comentados; 
+    - Operação no ambiente vistual aneel_energisa_3.8 disponibilizado;
 
 
 ## 1º etapa do projeto - (desafio energisa, http://127.0.0.1:8050/)
