@@ -31,6 +31,7 @@ O projeto tem o objetivo principal de apresentar dados e previsões relevantes a
  ## 3º etapa - incremento para uma plataforma visualização de dados
   - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Energisa_dashboard?node-id=0-1 ✔
   - layout em HTML e css ✔
+  - layout em vídeo - https://user-images.githubusercontent.com/84819715/230114373-4a255de5-c322-4bd1-8015-f18d62aa96b8.mp4
   - incrementar dashboard com dados reais <br>
  OBS: disponível em .app\V_3
   
