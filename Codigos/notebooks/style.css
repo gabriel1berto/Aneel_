@@ -1,0 +1,21 @@
+:root {
+  --rosa-color: #cb0c9f;
+  --cinza-color: #8392ab;
+  --verde-color: #82d616;
+  --verm_escuro-color: #f53939;
+  --verm-color: #ea0606;
+  --preto-color:#252f40;
+  --branco-color: #e9ecef;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0
+  fint-family: "open sans":
+}
+
