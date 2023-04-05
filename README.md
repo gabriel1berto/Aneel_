@@ -40,5 +40,4 @@ O projeto tem o objetivo principal de apresentar dados e previsões relevantes a
   - request de dados da api aneel ✔
   - incrementar dashboard com dados reais               <br>
   OBS: disponível em .app\V_4
-  
-  ## 2
+ 
