@@ -1,7 +1,7 @@
 ![reenergisa_logo](https://user-images.githubusercontent.com/84819715/229943527-1942f98d-827d-4055-a3c2-f06954d04bff.png)
 
 
-O projeto tem o objetivo principal de apresentar dados relevantes ao setor de energias em uma plataforma web.
+O projeto tem o objetivo principal de apresentar dados e previsões relevantes ao setor de energias em uma plataforma web.
 #### Linguagens utilizadas
     - python
     - HTML/CSS
@@ -31,12 +31,12 @@ O projeto tem o objetivo principal de apresentar dados relevantes ao setor de en
  ## 3º etapa - incremento para uma plataforma visualização de dados
   - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Energisa_dashboard?node-id=0-1 ✔
   - layout em HTML e css ✔
-  - incrementar dashboard com dados reais            <br>
+  - incrementar dashboard com dados reais <br>
  OBS: disponível em .app\V_3
   
  ## 4º etapa - aplicad JS para obtenção dos dados
   - Servidor em nodeJS ✔
-  - obtenção de dados da api aneel ✔
+  - request de dados da api aneel ✔
   - incrementar dashboard com dados reais               <br>
   OBS: disponível em .app\V_4
   
