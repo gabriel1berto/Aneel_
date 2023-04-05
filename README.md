@@ -1,37 +1,42 @@
-![Logo_Grupo_Energisa](https://user-images.githubusercontent.com/84819715/227146519-476224f4-6516-47bd-ba03-c4904c49e601.png)
+![reenergisa_logo](https://user-images.githubusercontent.com/84819715/229943527-1942f98d-827d-4055-a3c2-f06954d04bff.png)
 
 
+O projeto tem o objetivo principal de apresentar dados relevantes ao setor de energias em uma plataforma web.
+#### Linguagens utilizadas
+    - python
+    - HTML/CSS
+    - php
+    - js
 
-# Energisa_aneel
-
-O projeto tem o objetivo principal de realizar ETL de dados de Relação de empreendimentos de Geração Distribuída pela API (Aneel), realizar EDA e desenvolver uma plataforma em https(localhost) para visualizar gráficos.
-
-## Exposição de dados - Visualização -> (...)
-## Arquivo principal - Codigos -> app.ipynb
-## Arquivo de testes - Codigos -> test1.ipynb
 
 ## Boas práticas:
-    - Códigos comentados; 
-    - Operação no ambiente vistual aneel_energisa disponibilizado em Codigos;
-    - Commit no git.
+    - Códigos comitados e comentados; 
+    - Operação no ambiente vistual aneel_energisa_3.8 disponibilizado;
 
 
-## 1º etapa do projeto - (desafio energisa, http://127.0.0.1:8050/ )
-### 1.1 refinamento do script (http://127.0.0.1:8040/ ))
+## 1º etapa do projeto - modelo basico de obtenção e apresentação de dados
+
+### 1.1 refinamento do script
   - ETL (Extract Transform and Load) dados da API Relação de empreendimentos de Geração Distribuída   ✔
   - EDA (Exploratory Data Analysis) em python   ✔
-  - Visualização em https localhost   ✔
+  - Visualização em https localhost   ✔                 <br>
+ OBS: disponível em .app\V_1
 
-
-## 2º etapa do projeto - AWS
-  - Requisição de API por API-Gateway
-  - ETL por Lambda
-  - Armazenamento temporário em S3
-  - Armazenamento de banco em RDS
-  - Evoluir a visualização de daos 
-
-
- ## 3º etapa do projeto - Inteligencia de mercado
-  - Utilizar a estrutura criada para captar dados de diversas API do setor (ONS, MLE, PEE)
-  - Aplicar modelos de regressão e ML
-  - Evoluir a visualização de dados
+## 2º etapa - refinamento do projeto - AWS
+  - otimização de scripts ✔
+  - estudo da serie novos usuários ✔
+  - teste em modelos de previsão (ARIMA, prophet) ✔        <br>
+ OBS: disponível em .app\V_2
+ 
+ ## 3º etapa - incremento para uma plataforma visualização de dados
+  - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Energisa_dashboard?node-id=0-1 ✔
+  - layout em HTML e css ✔
+  - incrementar dashboard com dados reais            <br>
+ OBS: disponível em .app\V_3
+  
+ ## 4º etapa - aplicad JS para obtenção dos dados
+  - Servidor em nodeJS ✔
+  - obtenção de dados da api aneel ✔
+  - incrementar dashboard com dados reais               <br>
+  OBS: disponível em .app\V_4
+  
