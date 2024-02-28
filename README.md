@@ -11,7 +11,7 @@ O projeto tem o objetivo principal de apresentar dados e previsões relevantes a
 
 ## Boas práticas:
     - Códigos comitados e comentados; 
-    - Operação no ambiente vistual aneel_energisa_3.8 disponibilizado;
+    - Operação no ambiente vistual aneel_ene_3.8 disponibilizado;
 
 
 ## 1º etapa do projeto - ETL, EDA e apresentação de dados
@@ -29,7 +29,7 @@ O projeto tem o objetivo principal de apresentar dados e previsões relevantes a
  OBS: disponível em .app\V_2
  
  ## 3º versão - incremento para uma plataforma visualização de dados
-  - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Energisa_dashboard?node-id=0-1 ✔
+  - layout em Figma - https://www.figma.com/proto/MusLbOEHHRq7XZ3gBbAvcv/Ener_dashboard?node-id=0-1 ✔
   - layout em HTML e css ✔
   - layout em vídeo - https://user-images.githubusercontent.com/84819715/230114373-4a255de5-c322-4bd1-8015-f18d62aa96b8.mp4
   - incrementar dashboard com dados reais <br>
